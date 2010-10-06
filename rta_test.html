@@ -1,0 +1,60 @@
+<html>
+<head>
+<title>Primo Central RTA test page</title>
+<style type="text/css" media="screen">
+	thead {background-color:yellow;}
+	td {border: 1px solid black;padding:2px 5px 2px 5px;}
+</style>
+</head>
+<body>
+	<div id='container'>
+		<table>
+			<thead>
+				<tr>
+				<td>ID</td>
+				<td>ISSN</td>
+				<td>YEAR</td>
+				<td>AVAILABLE</td>
+				<tr>				
+			</thead>
+			<tbody>
+			</tbody>
+		</table>
+	</div>
+	
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+	<script type="text/javascript" src="javascript/jquery.limo.js"></script>
+	<script type="text/javascript">
+		$(document).ready(function(){
+			var records = [{rid : 'TN_ebsco_academic41524024', issn:'00368555', date:'2009'},
+						   {rid : 'TN_ebsco_academic34680608', issn:'00067385', date:'2008'},
+				 		   {rid : 'TN_ebsco_academic9706043253', issn:'00168386', date:'1996'},
+						   {rid : 'TN_ebsco_academic36778969', issn:'03044092', date:'2008'},
+						   {rid : 'TN_ebsco_academic36802316', issn:'15374246', date:'2009'},
+						   {rid : 'TN_ebsco_academic39556682', issn:'10489487', date:'2009'},
+						   {rid : 'TN_ebsco_academic19089844', issn:'00168386', date:'2005'},
+						   {rid : 'TN_ebsco_academic37607600', issn:'03628930', date:'2009'},
+						   {rid : 'TN_ebsco_academic34607527', issn:'00426598', date:'2008'},
+						   {rid : 'TN_ebsco_academic36791718', issn:'00062510', date:'2009'}
+			];
+
+			var records_html = "";
+			
+			$.each(records, function(){
+				var t = "<tr class='EXLResult'><td class='EXLThumbnail'><span id='#ID#' name='#ID#' class='EXLResultRecordId'>#ID#</span><a class='popThumbnailToTop' ";
+				t += "href='http://sfx.org?sfxlcl3?ctx_ver=Z39.88-2004&ctx_enc=info:ofi/enc:UTF-8&rft.issn=#ISSN#&rft.date=#DATE#' style='display:none' /></td><td>#ISSN#</td>";
+				t += "<td>#DATE#</td><td><p class='EXLResultAvailability'><em>?</em></p></td><tr>";
+				
+				t=t.replace(/#ID#/g, this.rid);
+				t=t.replace(/#ISSN#/g, this.issn);
+				t=t.replace(/#DATE#/g, this.date);
+				records_html = records_html + t;
+			});
+			
+			$('tbody').empty().append(records_html);
+			jQuery.limo.primo_central.rta.url = 'http://127.0.0.1:3000/';
+			jQuery.limo.primo_central.rta.update('KULeuven');
+		});
+	</script>
+</body>
+</html>

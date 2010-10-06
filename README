@@ -1,0 +1,45 @@
+PrimoCentral Real Time Availability Update for Primo v3.0
+
+K.U.Leuven/Libis (c) 2010 -- BSD license
+Mehmet Celik -- mehmet.celik at libis.be
+
+SUMMARY:
+Real Time Availability for Primo Central records is not always correctly labeled. We created an acceptable workaround for us to go live with Primo Central 
+and hope that Ex Libris is working hard to fix this.
+
+We rely on 'Define link from title' -> 'Link to online resource' setting in the Views Wizard -> Brief Results screen. This setting will create SFX links 
+for every online available record. We extract the ISSN/EISSN, DATE and RECORD ID from the SFX links and query SFX RSI for full text availability and update
+the screen accordingly.
+
+INSTALL:
+The solution is based on jQuery on the client side and a Ruby/Rack based solution on the server side.
+
+	CLIENT:
+		FILES:
+			rta_test.html					used for testing RTA 
+			jquery.limo.js					RTA client code
+		USAGE:
+			include jquery.limo.js in Primo.
+			
+			<script type="text/javascript" src="jquery.limo.js"></script>
+			
+			Supply the location of the RTA service and call update with the SFX institution you want to query.
+			
+			<script type="text/javascript">
+				$(document).ready(function(){
+					jQuery.limo.primo_central.rta.url='http://my.rta.service.com/';
+					jQuery.limo.primo_central.rta.update('KULeuven');
+				});
+			</script>
+			
+	SERVER:
+		FILES:
+			config.ru						Rack wrapper
+			lib/primo_central_rta.rb		rsi query logic
+		USAGE:
+			The server is Ruby based and depends on Rack, Nokogiri, JSON. 
+			You should update the RSI_URL and DEFAULT_SFX_INSTITUTION in lib/primo_central_rta.rb 
+			Starting the service for testing
+				rackup -p 3000 config.ru
+
+Once the service is running you can test it with rta_test.html or Primo
