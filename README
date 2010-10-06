@@ -11,6 +11,13 @@ We rely on 'Define link from title' -> 'Link to online resource' setting in the 
 for every online available record. We extract the ISSN/EISSN, DATE and RECORD ID from the SFX links and query SFX RSI for full text availability and update
 the screen accordingly.
 
+REMARKS:
+	- Only updates PrimoCentral records
+	- updates records with issn/eissn 
+	- no 'Online resource' tab for updated records you must click the SFX tab
+	- Updated records are not part of the 'FullText online Available' top facet
+	- sometimes fails to run in Chrome
+
 INSTALL:
 The solution is based on jQuery on the client side and a Ruby/Rack based solution on the server side.
 
